@@ -1,54 +1,84 @@
 using FluentValidation;
+using Microsoft.Extensions.Localization;
+using TheMovie.Application.Resources;
+using TheMovie.Domain.Interfaces;
 
 namespace TheMovie.Application.Movies.Commands.UpdateMovie;
 
 /// <summary>
-/// Validates instances of <see cref="UpdateMovieCommand"/> using FluentValidation.
+/// Validator for <see cref="UpdateMovieCommand"/>.
+/// Performs format validation and business rules (unique title, existing genre) with localized messages.
 /// </summary>
 public class UpdateMovieCommandValidator : AbstractValidator<UpdateMovieCommand>
 {
+    private readonly IMovieRepository movieRepository;
+    private readonly IGenreRepository genreRepository;
+    private readonly IStringLocalizer<Validations> localizer;
+
     /// <summary>
-    /// Initializes a new instance of the <see cref="UpdateMovieCommandValidator"/> class
-    /// and defines validation rules for updating a movie.
+    /// Initializes a new instance of the <see cref="UpdateMovieCommandValidator"/> class and defines rules.
     /// </summary>
-    public UpdateMovieCommandValidator()
+    /// <param name="movieRepository">Repository for movie lookups.</param>
+    /// <param name="genreRepository">Repository for genre lookups.</param>
+    /// <param name="localizer">String localizer for validation messages.</param>
+    public UpdateMovieCommandValidator(
+        IMovieRepository movieRepository,
+        IGenreRepository genreRepository,
+        IStringLocalizer<Validations> localizer)
     {
-        /// <summary>
-        /// Ensures the Id property is not empty.
-        /// </summary>
+        this.movieRepository = movieRepository;
+        this.genreRepository = genreRepository;
+        this.localizer = localizer;
+
         RuleFor(c => c.Id)
-            .NotEmpty().WithMessage("Id is required.");
+            .NotEmpty();
 
-        /// <summary>
-        /// Ensures the Title property is provided and does not exceed 200 characters.
-        /// </summary>
         RuleFor(c => c.Title)
-            .NotEmpty().WithMessage("Title is required.")
-            .MaximumLength(200).WithMessage("Title cannot exceed 200 characters.");
+            .NotEmpty()
+            .WithMessage(_ => localizer["Movie_Title_Required"]) 
+            .MaximumLength(200)
+            .WithMessage(_ => localizer["Movie_Title_MaxLength", 200]);
 
-        /// <summary>
-        /// Ensures the Synopsis property is provided and does not exceed 1000 characters.
-        /// </summary>
         RuleFor(c => c.Synopsis)
-            .NotEmpty().WithMessage("Synopsis is required.")
-            .MaximumLength(1000).WithMessage("Synopsis cannot exceed 1000 characters.");
+            .NotEmpty()
+            .WithMessage(_ => localizer["Movie_Synopsis_Required"]);
 
-        /// <summary>
-        /// Ensures the ReleaseYear property is greater than 1888.
-        /// </summary>
-        RuleFor(c => c.ReleaseYear)
-            .GreaterThan(1888).WithMessage("Release year must be greater than 1888.");
-
-        /// <summary>
-        /// Ensures the Price property is greater than zero.
-        /// </summary>
         RuleFor(c => c.Price)
-            .GreaterThan(0).WithMessage("Price must be greater than zero.");
+            .GreaterThan(0)
+            .WithMessage(_ => localizer["Movie_Price_GreaterThan"]);
 
-        /// <summary>
-        /// Ensures the GenreId property is not empty.
-        /// </summary>
+        RuleFor(c => c.Rating)
+            .IsInEnum()
+            .WithMessage(_ => localizer["Movie_Rating_Invalid"]);
+
+        RuleFor(c => c.ReleaseYear)
+            .Must(year => year <= DateTime.UtcNow.Year)
+            .WithMessage(_ => localizer["Movie_ReleaseYear_Future"]);
+
+        RuleFor(c => c)
+            .MustAsync(HaveAUniqueTitle)
+            .WithMessage(_ => localizer["Movie_Title_Unique"]);
+
         RuleFor(c => c.GenreId)
-            .NotEmpty().WithMessage("Genre is required.");
+            .NotEmpty().WithMessage(_ => localizer["Movie_GenreId_Required"]) 
+            .MustAsync(GenreMustExist)
+            .WithMessage(_ => localizer["Movie_GenreId_Exists"]);
+    }
+
+    private async Task<bool> HaveAUniqueTitle(UpdateMovieCommand command, CancellationToken cancellationToken)
+    {
+        var existing = await movieRepository.GetByTitleAsync(command.Title);
+        return existing is null || existing.Id == command.Id;
+    }
+
+    private async Task<bool> GenreMustExist(Guid genreId, CancellationToken cancellationToken)
+    {
+        if (genreId == Guid.Empty)
+        {
+            return false;
+        }
+
+        var genre = await genreRepository.GetByIdAsync(genreId);
+        return genre is not null;
     }
 }

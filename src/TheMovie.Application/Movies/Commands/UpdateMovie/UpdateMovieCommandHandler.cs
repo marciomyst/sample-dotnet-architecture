@@ -1,15 +1,16 @@
 using MediatR;
+using TheMovie.Application.Shared;
 using TheMovie.Domain.Interfaces;
 using TheMovie.Domain.SeedWork;
 
 namespace TheMovie.Application.Movies.Commands.UpdateMovie;
 
 /// <summary>
-/// Handler for <see cref="UpdateMovieCommand"/> that updates an existing movie in the domain.
+/// Handles <see cref="UpdateMovieCommand"/> by applying changes to an existing movie aggregate and persisting them.
 /// </summary>
 /// <param name="movieRepository">Repository for managing movie persistence.</param>
 /// <param name="unitOfWork">Unit of work responsible for committing changes.</param>
-public class UpdateMovieCommandHandler(IMovieRepository movieRepository, IUnitOfWork unitOfWork) : IRequestHandler<UpdateMovieCommand, Unit>
+public class UpdateMovieCommandHandler(IMovieRepository movieRepository, IUnitOfWork unitOfWork) : IRequestHandler<UpdateMovieCommand, Result>
 {
     private readonly IMovieRepository _movieRepository = movieRepository;
     private readonly IUnitOfWork _unitOfWork = unitOfWork;
@@ -19,15 +20,14 @@ public class UpdateMovieCommandHandler(IMovieRepository movieRepository, IUnitOf
     /// </summary>
     /// <param name="request">The command containing movie details.</param>
     /// <param name="cancellationToken">Cancellation token to observe while processing.</param>
-    /// <returns>A <see cref="Unit"/> value.</returns>
-    public async Task<Unit> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
+    /// <returns>A <see cref="Result"/> indicating success or failure.</returns>
+    public async Task<Result> Handle(UpdateMovieCommand request, CancellationToken cancellationToken)
     {
-        Domain.Aggregates.MovieAggregate.Movie? movie = await _movieRepository.GetByIdAsync(request.Id);
+        var movie = await _movieRepository.GetByIdAsync(request.Id);
 
         if (movie is null)
         {
-            // Or throw a custom exception
-            return Unit.Value;
+            return Result.Fail(new Error("Movie.NotFound", "Movie not found."));
         }
 
         movie.Update(
@@ -42,6 +42,6 @@ public class UpdateMovieCommandHandler(IMovieRepository movieRepository, IUnitOf
         _movieRepository.Update(movie);
         await _unitOfWork.SaveEntitiesAsync(cancellationToken);
 
-        return Unit.Value;
+        return Result.Ok();
     }
 }

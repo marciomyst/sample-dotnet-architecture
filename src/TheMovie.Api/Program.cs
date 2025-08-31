@@ -7,6 +7,7 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Data;
 using System.Reflection;
 using TheMovie.Api.Features.Movies.CreateMovie;
+using TheMovie.Api.Features.Movies.DeleteMovie;
 using TheMovie.Application.Behaviours;
 using TheMovie.Application.Interfaces;
 using TheMovie.Domain.Interfaces;
@@ -17,7 +18,7 @@ using TheMovie.Infrastructure.Services;
 
 namespace TheMovie.Api
 {
-    public class Program
+    internal class Program
     {
         public static void Main(string[] args)
         {
@@ -68,6 +69,7 @@ namespace TheMovie.Api
             app.UseRequestLocalization(localizationOptions);
 
             app.MapCreateMovie();
+            app.MapDeleteMovie();
 
             if (app.Environment.IsDevelopment())
             {

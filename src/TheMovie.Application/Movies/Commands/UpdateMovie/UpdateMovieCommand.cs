@@ -1,4 +1,5 @@
 using MediatR;
+using TheMovie.Application.Shared;
 using TheMovie.Domain.Aggregates.MovieAggregate;
 
 namespace TheMovie.Application.Movies.Commands.UpdateMovie;
@@ -21,4 +22,4 @@ public record UpdateMovieCommand(
     decimal Price,
     Guid GenreId,
     MovieRating Rating
-) : IRequest<Unit>;
+) : IRequest<Result>;

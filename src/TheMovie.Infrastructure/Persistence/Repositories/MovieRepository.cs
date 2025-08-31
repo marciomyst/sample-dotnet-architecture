@@ -47,6 +47,13 @@ public class MovieRepository(TheMovieDbContext context) : IMovieRepository, IDis
     }
 
     /// <inheritdoc />
+    public void Remove(Movie movie)
+    {
+        ArgumentNullException.ThrowIfNull(movie);
+        _context.Movies.Remove(movie);
+    }
+
+    /// <inheritdoc />
     public async Task<Movie?> GetByIdAsync(Guid id)
     {
         return await _context.Movies
