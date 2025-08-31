@@ -1,0 +1,157 @@
+# ========================================================================================
+# EditorConfig - Padrão para projetos .NET C#
+# Alinhado com as regras comuns do SonarQube (Roslyn Analyzers)
+#
+# Coloque este arquivo na raiz do seu repositório para aplicar as regras a todo o código.
+# ========================================================================================
+
+# Indica que este é o arquivo raiz e o editor não deve procurar por outros arquivos .editorconfig em diretórios superiores.
+root = true
+
+# ========================================================================================
+# Configurações Gerais (Aplicáveis a todos os arquivos)
+# ========================================================================================
+[*]
+end_of_line = lf
+charset = utf-8
+trim_trailing_whitespace = true
+insert_final_newline = true
+indent_style = space
+indent_size = 4
+
+# ========================================================================================
+# Configurações Específicas para C# ([*.cs])
+# ========================================================================================
+[*.cs]
+# ----- Regras de Indentação e Espaçamento -----
+csharp_indent_braces = false
+csharp_indent_case_contents = true
+csharp_indent_switch_labels = true
+
+# ----- Novas Linhas e Quebras (Bracing Style) - Allman Style -----
+csharp_new_line_before_open_brace = all
+csharp_new_line_before_else = true
+csharp_new_line_before_catch = true
+csharp_new_line_before_finally = true
+csharp_new_line_before_members_in_object_initializers = true
+csharp_new_line_before_members_in_anonymous_types = true
+
+# ----- Espaçamento -----
+csharp_space_after_cast = true
+csharp_space_after_colon_in_inheritance_clause = true
+csharp_space_after_comma = true
+csharp_space_after_dot = false
+csharp_space_after_keywords_in_control_flow_statements = true
+csharp_space_between_empty_square_brackets = false
+csharp_space_between_method_call_empty_parentheses = false
+csharp_space_between_method_declaration_empty_parentheses = false
+csharp_space_between_parentheses = false
+csharp_space_between_square_brackets = false
+csharp_space_before_colon_in_inheritance_clause = true
+csharp_space_before_comma = false
+csharp_space_before_dot = false
+
+# ========================================================================================
+# Regras de Nomenclatura do .NET (Naming Conventions)
+# ========================================================================================
+
+# Estilo: PascalCase
+dotnet_naming_style.pascal_case.capitalization = pascal_case
+
+# Estilo: camelCase
+dotnet_naming_style.camel_case.capitalization = camel_case
+
+# Estilo: _camelCase (para campos privados)
+dotnet_naming_style.private_field_underscore.capitalization = camel_case
+dotnet_naming_style.private_field_underscore.required_prefix = _
+
+# --- Símbolos e Regras ---
+
+# Regra: Classes, structs, enums, delegates e interfaces devem ser PascalCase
+dotnet_naming_rule.types_should_be_pascal_case.symbols = named_type
+dotnet_naming_rule.types_should_be_pascal_case.style = pascal_case
+dotnet_naming_rule.types_should_be_pascal_case.severity = suggestion
+
+# Regra: Interfaces devem começar com 'I'
+dotnet_naming_rule.interface_should_start_with_i.symbols = interface
+dotnet_naming_rule.interface_should_start_with_i.style = pascal_case_with_i_prefix
+dotnet_naming_style.pascal_case_with_i_prefix.capitalization = pascal_case
+dotnet_naming_style.pascal_case_with_i_prefix.required_prefix = I
+dotnet_naming_rule.interface_should_start_with_i.severity = suggestion
+
+# Regra: Métodos públicos devem ser PascalCase
+dotnet_naming_rule.public_methods_should_be_pascal_case.symbols = public_method
+dotnet_naming_rule.public_methods_should_be_pascal_case.style = pascal_case
+dotnet_naming_rule.public_methods_should_be_pascal_case.severity = suggestion
+
+# Regra: Campos privados devem ser _camelCase
+dotnet_naming_rule.private_fields_should_be_camel_case_with_underscore.symbols = private_field
+dotnet_naming_rule.private_fields_should_be_camel_case_with_underscore.style = private_field
+dotnet_naming_rule.private_fields_should_be_camel_case_with_underscore.severity = suggestion
+
+# Definição dos grupos de símbolos
+dotnet_naming_symbols.named_type.applicable_kinds = class, struct, interface, enum, delegate
+dotnet_naming_symbols.interface.applicable_kinds = interface
+dotnet_naming_symbols.public_method.applicable_kinds = method
+dotnet_naming_symbols.public_method.applicable_accessibilities = public, internal, protected, protected_internal
+dotnet_naming_symbols.private_field.applicable_kinds = field
+dotnet_naming_symbols.private_field.applicable_accessibilities = private
+
+# ========================================================================================
+# Regras de Estilo de Código C# (Code Style)
+# ========================================================================================
+
+# Usar 'var' quando o tipo for aparente
+csharp_style_var_when_type_is_apparent = true:suggestion
+
+# Usar a diretiva 'using' dentro do namespace
+csharp_using_directive_placement = outside_namespace:suggestion
+
+# Qualificar acesso a campos com 'this.'
+dotnet_style_qualification_for_field = false:none
+
+# Qualificar acesso a propriedades com 'this.'
+dotnet_style_qualification_for_property = false:none
+
+# Usar tipos pré-definidos da linguagem (ex: 'int' em vez de 'Int32')
+dotnet_style_predefined_type_for_locals_parameters_members = true:true
+
+# Ordem dos modificadores
+csharp_preferred_modifier_order = public,private,protected,internal,static,extern,new,virtual,abstract,sealed,override,readonly,unsafe,volatile,async
+
+# Preferir verificação 'is null' a '== null'
+dotnet_style_prefer_is_null_check_over_reference_equality_method = true:suggestion
+
+# Remover 'usings' desnecessários
+dotnet_diagnostic.IDE0005.severity = warning
+
+# ========================================================================================
+# Severidade de Regras Específicas do SonarAnalyzer
+#
+# Para que estas regras funcionem no Visual Studio / VS Code,
+# você precisa ter o pacote NuGet `SonarAnalyzer.CSharp` instalado em seus projetos.
+#
+# A lista completa de regras está em: https://rules.sonarsource.com/csharp
+# ========================================================================================
+
+# S1118: Utility classes should not have public constructors
+dotnet_diagnostic.S1118.severity = warning
+
+# S1125: Boolean literals should not be redundant
+dotnet_diagnostic.S1125.severity = suggestion
+
+# S1481: Unused local variables should be removed
+dotnet_diagnostic.S1481.severity = warning
+
+# S2259: Null pointers should not be dereferenced
+dotnet_diagnostic.S2259.severity = error
+
+# S3897: "IAsyncResult" should not be used
+dotnet_diagnostic.S3897.severity = warning
+
+# CA1822: Mark members as static (Regra do .NET SDK que o Sonar também reporta)
+dotnet_diagnostic.CA1822.severity = suggestion
+
+# S107: Methods should not have too many parameters
+# Esta regra não pode ser configurada aqui, pois depende de um parâmetro (número máximo de parâmetros).
+# A configuração deve ser feita no SonarQube. O IDE usará o padrão.
