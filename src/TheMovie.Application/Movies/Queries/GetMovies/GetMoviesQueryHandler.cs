@@ -9,15 +9,16 @@ namespace TheMovie.Application.Movies.Queries.GetMovies;
 /// <summary>
 /// Handler for <see cref="GetMoviesQuery"/> that retrieves movies from the database with pagination and filtering.
 /// </summary>
-public class GetMoviesQueryHandler : IRequestHandler<GetMoviesQuery, PagedResult<MovieDto>>
+/// <remarks>
+/// Relies on <see cref="GetMoviesQueryValidator"/> to validate pagination bounds and optional filters.
+/// </remarks>
+/// <remarks>
+/// Initializes a new instance of <see cref="GetMoviesQueryHandler"/> with the specified database connection.
+/// </remarks>
+/// <param name="dbConnection">IDbConnection configured for database operations.</param>
+public class GetMoviesQueryHandler(IDbConnection dbConnection) : IRequestHandler<GetMoviesQuery, PagedResult<MovieDto>>
 {
-    private readonly IDbConnection _dbConnection;
-
-    /// <summary>
-    /// Initializes a new instance of <see cref="GetMoviesQueryHandler"/> with the specified database connection.
-    /// </summary>
-    /// <param name="dbConnection">IDbConnection configured for database operations.</param>
-    public GetMoviesQueryHandler(IDbConnection dbConnection) => _dbConnection = dbConnection;
+    private readonly IDbConnection _dbConnection = dbConnection;
 
     /// <summary>
     /// Handles the <see cref="GetMoviesQuery"/> to retrieve a paginated list of movies applying optional filters.

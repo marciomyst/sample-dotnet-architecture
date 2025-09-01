@@ -36,7 +36,7 @@ public class GetMovieByIdQueryHandler : IRequestHandler<GetMovieByIdQuery, Movie
                     m.""Title"",
                     m.""Synopsis"",
                     m.""ReleaseYear"",
-                    m.""TicketPrice"",
+                    m.""Price"",
                     g.""Name"" AS GenreName,
                     m.""Rating""
                 FROM ""Movies"" m

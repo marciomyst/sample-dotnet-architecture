@@ -30,10 +30,9 @@ public static class GetMoviesEndpoints
         .WithOpenApi((OpenApiOperation operation) =>
         {
             operation.Summary = "Gets a paginated list of movies.";
-            operation.Description = "Retrieves movies optionally filtered by title, release year, and genre.";
+            operation.Description = "Retrieves movies optionally filtered by title, release year, and genre. Pagination is validated: pageNumber >= 1 and 1 <= pageSize <= 100.";
             return operation;
         })
         .Produces<GetMoviesResponse>(StatusCodes.Status200OK);
     }
 }
-

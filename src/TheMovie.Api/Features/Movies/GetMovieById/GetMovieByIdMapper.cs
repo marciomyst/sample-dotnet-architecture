@@ -21,9 +21,8 @@ internal static class GetMovieByIdMapper
             Title: dto.Title,
             Synopsis: dto.Synopsis,
             ReleaseYear: dto.ReleaseYear,
-            Price: dto.TicketPrice,
+            Price: dto.Price,
             GenreName: dto.GenreName,
             Rating: dto.Rating
         );
 }
-

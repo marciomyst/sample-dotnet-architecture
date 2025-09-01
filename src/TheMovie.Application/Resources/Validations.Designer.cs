@@ -106,6 +106,15 @@ namespace TheMovie.Application.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Release year must be greater than 1888..
+        /// </summary>
+        public static string Movie_ReleaseYear_Min {
+            get {
+                return ResourceManager.GetString("Movie_ReleaseYear_Min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Synopsis is required..
         /// </summary>
         public static string Movie_Synopsis_Required {
@@ -138,6 +147,24 @@ namespace TheMovie.Application.Resources {
         public static string Movie_Title_Unique {
             get {
                 return ResourceManager.GetString("Movie_Title_Unique", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page number must be greater than or equal to 1..
+        /// </summary>
+        public static string Pagination_PageNumber_Min {
+            get {
+                return ResourceManager.GetString("Pagination_PageNumber_Min", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Page size must be between {Min} and {Max}..
+        /// </summary>
+        public static string Pagination_PageSize_Range {
+            get {
+                return ResourceManager.GetString("Pagination_PageSize_Range", resourceCulture);
             }
         }
     }

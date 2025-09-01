@@ -24,4 +24,8 @@
 		<ProjectReference Include="..\TheMovie.Infrastructure\TheMovie.Infrastructure.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Features\Genres\" />
+	</ItemGroup>
+
 </Project>

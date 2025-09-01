@@ -7,14 +7,14 @@ namespace TheMovie.Application.Movies.Commands.CreateMovie;
 
 /// <summary>
 /// Validator for the <see cref="CreateMovieCommand"/>.
-/// Performs both format validation and business rule validation with repository lookups.
+/// Performs format validation and business rule checks with repository lookups.
 /// All error messages are localized via <see cref="IStringLocalizer{T}"/>.
 /// </summary>
 /// <remarks>
 /// <para>
-/// This validator enforces basic invariants (required fields, max lengths, numeric ranges, valid enum values)
-/// and business rules (unique movie title, existing genre) before the handler runs. Error messages are sourced from
-/// resource files using <see cref="IStringLocalizer{Validations}"/> so they can be translated per current UI culture.
+/// Enforces basic invariants (required fields, max lengths, numeric ranges, valid enum values) and business rules
+/// (unique movie title, existing genre) before the handler runs. Messages are sourced from
+/// <see cref="IStringLocalizer{Validations}"/> so they can be translated per current UI culture.
 /// </para>
 /// <para>
 /// Rules overview:
@@ -24,6 +24,14 @@ namespace TheMovie.Application.Movies.Commands.CreateMovie;
 /// - Rating: valid enum value.
 /// - ReleaseYear: not in the future.
 /// - GenreId: not empty and must exist.
+/// </para>
+/// <para>
+/// Example:
+/// <code><![CDATA[
+/// var validator = new CreateMovieCommandValidator(movieRepo, genreRepo, localizer);
+/// var result = await validator.ValidateAsync(command);
+/// if (!result.IsValid) { /* map to ProblemDetails with localized messages */ }
+/// ]]></code>
 /// </para>
 /// </remarks>
 public class CreateMovieCommandValidator : AbstractValidator<CreateMovieCommand>
@@ -75,6 +83,7 @@ public class CreateMovieCommandValidator : AbstractValidator<CreateMovieCommand>
 
         RuleFor(x => x.GenreId)
             .NotEmpty()
+            .WithMessage(_ => localizer[nameof(Validations.Movie_GenreId_Required)])
             .MustAsync(GenreMustExist)
             .WithMessage(_ => localizer[nameof(Validations.Movie_GenreId_Exists)]);
     }
