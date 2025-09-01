@@ -16,8 +16,10 @@ namespace TheMovie.Application.Movies.Commands.DeleteMovie;
 /// </para>
 /// <para>
 /// Failure codes returned:
-/// - <c>Movie.InvalidId</c> — when the id is empty.
-/// - <c>Movie.NotFound</c> — when the movie does not exist.
+/// <list type="bullet">
+/// <item> <c>Movie.InvalidId</c> — when the id is empty. </item>
+/// <item> <c>Movie.NotFound</c> — when the movie does not exist. </item>
+/// </list>
 /// </para>
 /// </remarks>
 /// <param name="movieRepository">Repository for accessing and mutating movies.</param>

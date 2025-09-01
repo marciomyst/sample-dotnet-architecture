@@ -149,6 +149,15 @@ namespace TheMovie.Application.Resources {
                 return ResourceManager.GetString("Movie_Title_Unique", resourceCulture);
             }
         }
+
+        /// <summary>
+        ///   Looks up a localized string similar to Movie id is required..
+        /// </summary>
+        public static string Movie_Id_Required {
+            get {
+                return ResourceManager.GetString("Movie_Id_Required", resourceCulture);
+            }
+        }
         
         /// <summary>
         ///   Looks up a localized string similar to Page number must be greater than or equal to 1..

@@ -1,4 +1,6 @@
 using FluentValidation;
+using Microsoft.Extensions.Localization;
+using TheMovie.Application.Resources;
 
 namespace TheMovie.Application.Movies.Commands.DeleteMovie;
 
@@ -15,9 +17,10 @@ public class DeleteMovieCommandValidator : AbstractValidator<DeleteMovieCommand>
     /// <summary>
     /// Initializes validation rules for deleting a movie.
     /// </summary>
-    public DeleteMovieCommandValidator()
+    public DeleteMovieCommandValidator(IStringLocalizer<Validations> localizer)
     {
         RuleFor(c => c.Id)
-            .NotEmpty().WithMessage("Id is required.");
+            .NotEmpty()
+            .WithMessage(_ => localizer[nameof(Validations.Movie_Id_Required)]);
     }
 }
