@@ -31,13 +31,15 @@ public class CreateMovieRequestExample : IExamplesProvider<CreateMovieRequest>
     /// <returns>A populated <see cref="CreateMovieRequest"/> object.</returns>
     public CreateMovieRequest GetExamples()
     {
-        return new (
-            Title: "Pulp Fiction",
-            Synopsis: "The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
-            ReleaseYear: 1994,
-            Price: 22.50m,
-            GenreId: Guid.Parse("f4e5e6f7-1234-5678-9abc-def012345678"), // Deterministic Guid for docs/tests
-            Rating: MovieRating.R
+        return new(
+            Body: new CreateMovieRequestBody(
+                Title: "Pulp Fiction",
+                Synopsis: "The lives of two mob hitmen, a boxer, a gangster's wife, and a pair of diner bandits intertwine in four tales of violence and redemption.",
+                ReleaseYear: 1994,
+                Price: 22.50m,
+                GenreId: Guid.Parse("f4e5e6f7-1234-5678-9abc-def012345678"), // Deterministic Guid for docs/tests
+                Rating: MovieRating.R
+            )
         );
     }
 }

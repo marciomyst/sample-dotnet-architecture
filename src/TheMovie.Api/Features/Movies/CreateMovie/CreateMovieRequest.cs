@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.Mvc;
-using TheMovie.Domain.Aggregates.MovieAggregate;
 
 namespace TheMovie.Api.Features.Movies.CreateMovie;
 
@@ -25,17 +24,7 @@ namespace TheMovie.Api.Features.Movies.CreateMovie;
 /// ]]></code>
 /// </para>
 /// </remarks>
-/// <param name="Title">The title of the movie, bound from the request body.</param>
-/// <param name="Synopsis">A brief synopsis of the movie plot, bound from the request body.</param>
-/// <param name="ReleaseYear">The year the movie was released (must be greater than 1888), bound from the request body.</param>
-/// <param name="Price">The ticket price for the movie (must be greater than zero), bound from the request body.</param>
-/// <param name="GenreId">The unique identifier of the movie's genre, bound from the request body.</param>
-/// <param name="Rating">The content rating of the movie, bound from the request body.</param>
+/// <param name="Body">The request payload containing all movie fields.</param>
 public record CreateMovieRequest(
-    [FromBody] string Title,
-    [FromBody] string Synopsis,
-    [FromBody] int ReleaseYear,
-    [FromBody] decimal Price,
-    [FromBody] Guid GenreId,
-    [FromBody] MovieRating Rating
+    [FromBody] CreateMovieRequestBody Body    
 );

@@ -50,7 +50,7 @@ public static class CreateMovieEndpoint
     public static void MapCreateMovie(this IEndpointRouteBuilder app)
     {
         app.MapPost("/api/movies", async (
-            CreateMovieRequest request,
+            [AsParameters] CreateMovieRequest request,
             [FromServices] IMediator mediator,
             CancellationToken cancellationToken) =>
         {

@@ -1,9 +1,7 @@
 using MediatR;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using TheMovie.Api.Extensions;
-using TheMovie.Application.Movies.Commands.UpdateMovie;
 
 namespace TheMovie.Api.Features.Movies.UpdateMovie;
 
@@ -42,17 +40,19 @@ public static class UpdateMovieEndpoints
     /// </remarks>
     public static void MapUpdateMovie(this IEndpointRouteBuilder app)
     {
-        app.MapPut("/api/movies/{id:guid}", async (            
+        app.MapPut("/api/movies/{id:guid}", async (
             [AsParameters] UpdateMovieRequest request,
             [FromServices] IMediator mediator,
             CancellationToken cancellationToken) =>
         {
-            UpdateMovieCommand command = request.ToCommand(request.Id);
+            var command = request.ToCommand();
             var result = await mediator.Send(command, cancellationToken);
+
             if (result.IsFailure)
             {
                 return result.ToProblemDetails();
             }
+            
             return Results.NoContent();
         })
         .WithName("UpdateMovie")

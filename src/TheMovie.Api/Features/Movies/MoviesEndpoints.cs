@@ -1,6 +1,8 @@
 using TheMovie.Api.Features.Movies.CreateMovie;
 using TheMovie.Api.Features.Movies.DeleteMovie;
 using TheMovie.Api.Features.Movies.UpdateMovie;
+using TheMovie.Api.Features.Movies.GetMovieById;
+using TheMovie.Api.Features.Movies.GetMovies;
 
 namespace TheMovie.Api.Features.Movies;
 
@@ -30,8 +32,8 @@ public static class MoviesEndpoints
         app.MapCreateMovie();
         app.MapDeleteMovie();
         app.MapUpdateMovie();
+        app.MapGetMovieById();
+        app.MapGetMovies();
         // Future features:
-        // app.MapGetMovieById();
-        // app.MapGetMovies();
     }
 }

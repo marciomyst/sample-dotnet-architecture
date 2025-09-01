@@ -1,18 +1,17 @@
 using Microsoft.AspNetCore.Mvc;
-using TheMovie.Domain.Aggregates.MovieAggregate;
 
 namespace TheMovie.Api.Features.Movies.UpdateMovie;
 
 /// <summary>
-/// Represents the HTTP request payload to update an existing movie.
+/// Represents the HTTP request to update an existing movie.
 /// </summary>
 /// <remarks>
 /// <para>
-/// Bound from the request body of <c>PUT /api/movies/{id}</c>. Validation is performed in the application layer via
-/// FluentValidation before the handler executes.
+/// Combines the route identifier from <c>PUT /api/movies/{id}</c> with a JSON body containing the updated fields.
+/// Validation is performed in the application layer via FluentValidation before the handler executes.
 /// </para>
 /// <para>
-/// Example payload:
+/// Example body payload:
 /// <code><![CDATA[
 /// {
 ///   "title": "Pulp Fiction (Remastered)",
@@ -25,18 +24,9 @@ namespace TheMovie.Api.Features.Movies.UpdateMovie;
 /// ]]></code>
 /// </para>
 /// </remarks>
-/// <param name="Title">The updated title of the movie.</param>
-/// <param name="Synopsis">The updated synopsis of the movie plot.</param>
-/// <param name="ReleaseYear">The updated release year of the movie.</param>
-/// <param name="Price">The updated ticket price for the movie.</param>
-/// <param name="GenreId">The updated unique identifier of the movie's genre.</param>
-/// <param name="Rating">The updated content rating of the movie.</param>
+/// <param name="Id">The movie identifier bound from the route.</param>
+/// <param name="Body">The request body with the updated movie fields.</param>
 public record UpdateMovieRequest(
     [FromRoute] Guid Id,
-    [FromBody] string Title,
-    [FromBody] string Synopsis,
-    [FromBody] int ReleaseYear,
-    [FromBody] decimal Price,
-    [FromBody] Guid GenreId,
-    [FromBody] MovieRating Rating
+    [FromBody] UpdateMovieRequestBody Body
 );

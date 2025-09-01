@@ -8,13 +8,12 @@ namespace TheMovie.Api.Features.Movies.UpdateMovie;
 /// <remarks>
 /// <para>
 /// These helpers keep Minimal API endpoints concise by encapsulating translation from the transport DTO
-/// (<see cref="UpdateMovieRequest"/>) plus the route identifier to the application command
-/// (<see cref="UpdateMovieCommand"/>).
+/// (<see cref="UpdateMovieRequest"/>) to the application command (<see cref="UpdateMovieCommand"/>).
 /// </para>
 /// <para>
 /// Example usage inside an endpoint delegate:
 /// <code><![CDATA[
-/// var command = request.ToCommand(id);
+/// var command = request.ToCommand();
 /// var result  = await mediator.Send(command, cancellationToken);
 /// return result.IsSuccess ? Results.NoContent() : result.ToProblemDetails();
 /// ]]></code>
@@ -23,21 +22,20 @@ namespace TheMovie.Api.Features.Movies.UpdateMovie;
 internal static class UpdateMovieMapper
 {
     /// <summary>
-    /// Creates an <see cref="UpdateMovieCommand"/> from the HTTP request payload and route identifier.
+    /// Creates an <see cref="UpdateMovieCommand"/> from the HTTP request by combining route id and body.
     /// </summary>
-    /// <param name="id">The movie identifier from the route (<c>PUT /api/movies/{id}</c>).</param>
-    /// <param name="request">The update payload bound from the body.</param>
+    /// <param name="request">The update request containing the route id and the body payload.</param>
     /// <returns>An <see cref="UpdateMovieCommand"/> populated with values from the request.</returns>
-    public static UpdateMovieCommand ToCommand(this UpdateMovieRequest request, Guid id)
+    public static UpdateMovieCommand ToCommand(this UpdateMovieRequest request)
     {
         return new(
-            Id: id,
-            Title: request.Title,
-            Synopsis: request.Synopsis,
-            ReleaseYear: request.ReleaseYear,
-            Price: request.Price,
-            GenreId: request.GenreId,
-            Rating: request.Rating
+            Id: request.Id,
+            Title: request.Body.Title,
+            Synopsis: request.Body.Synopsis,
+            ReleaseYear: request.Body.ReleaseYear,
+            Price: request.Body.Price,
+            GenreId: request.Body.GenreId,
+            Rating: request.Body.Rating
         );
     }
 }

@@ -32,14 +32,15 @@ public class UpdateMovieRequestExample : IExamplesProvider<UpdateMovieRequest>
     public UpdateMovieRequest GetExamples()
     {
         return new(
-            Id: Guid.Parse("f4e5e6f7-1234-5678-9abc-def012345678"),
-            Title: "Pulp Fiction (Remastered)",
-            Synopsis: "The classic Tarantino film with remastered audio and scenes.",
-            ReleaseYear: 1994,
-            Price: 25.00m,
-            GenreId: Guid.Parse("f4e5e6f7-1234-5678-9abc-def012345678"),
-            Rating: MovieRating.R
+            Id: Guid.Parse("815acc2d-2224-4253-b119-3c82e7286c07"), // Deterministic Guid for docs/tests
+            Body: new UpdateMovieRequestBody(
+                Title: "Pulp Fiction (Remastered)",
+                Synopsis: "The classic Tarantino film with remastered audio and scenes.",
+                ReleaseYear: 1994,
+                Price: 25.00m,
+                GenreId: Guid.Parse("f4e5e6f7-1234-5678-9abc-def012345678"),
+                Rating: MovieRating.R
+            )
         );
     }
 }
-

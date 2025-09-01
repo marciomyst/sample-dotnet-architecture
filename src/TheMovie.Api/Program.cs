@@ -6,6 +6,7 @@ using Npgsql;
 using Swashbuckle.AspNetCore.Filters;
 using System.Data;
 using System.Reflection;
+using TheMovie.Api.Features.Movies;
 using TheMovie.Api.Features.Movies.CreateMovie;
 using TheMovie.Api.Features.Movies.DeleteMovie;
 using TheMovie.Application.Behaviours;
@@ -68,8 +69,7 @@ namespace TheMovie.Api
 
             app.UseRequestLocalization(localizationOptions);
 
-            app.MapCreateMovie();
-            app.MapDeleteMovie();
+            app.MapMovieEndpoints();
 
             if (app.Environment.IsDevelopment())
             {

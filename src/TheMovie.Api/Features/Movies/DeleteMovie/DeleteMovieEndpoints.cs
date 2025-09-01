@@ -2,7 +2,6 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
 using TheMovie.Api.Extensions;
-using TheMovie.Application.Movies.Commands.DeleteMovie;
 
 namespace TheMovie.Api.Features.Movies.DeleteMovie;
 
@@ -15,7 +14,7 @@ namespace TheMovie.Api.Features.Movies.DeleteMovie;
 /// converts application-layer errors to RFC 7807 <see cref="ProblemDetails"/> via
 /// <see cref="HttpErrorMapper.ToProblemDetails(TheMovie.Application.Shared.Result)"/>.
 /// </para>
-/// <para>
+/// <para> 
 /// Example request:
 /// <code><![CDATA[
 /// DELETE /api/movies/815acc2d-2224-4253-b119-3c82e7286c07

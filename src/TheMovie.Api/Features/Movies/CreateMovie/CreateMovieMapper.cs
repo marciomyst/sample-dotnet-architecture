@@ -32,12 +32,12 @@ internal static class CreateMovieMapper
     public static CreateMovieCommand ToCommand(this CreateMovieRequest request)
     {
         return new (
-            request.Title,
-            request.Synopsis,
-            request.ReleaseYear,
-            request.Price,
-            request.GenreId,
-            request.Rating
+            request.Body.Title,
+            request.Body.Synopsis,
+            request.Body.ReleaseYear,
+            request.Body.Price,
+            request.Body.GenreId,
+            request.Body.Rating
         );
     }
 
