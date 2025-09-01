@@ -46,38 +46,37 @@ public class CreateMovieCommandValidator : AbstractValidator<CreateMovieCommand>
         this.movieRepository = movieRepository;
         this.genreRepository = genreRepository;
         this.localizer = localizer;
-
         RuleFor(x => x.Title)
             .NotEmpty()
-            .WithMessage(_ => localizer["Title_Required"])
+            .WithMessage(_ => localizer[nameof(Validations.Movie_Title_Required)])
             .MaximumLength(200)
-            .WithMessage(_ => localizer["Title_MaxLength", 200]);
+            .WithMessage(_ => localizer[nameof(Validations.Movie_Title_MaxLength), 200]);
 
         RuleFor(x => x.Synopsis)
             .NotEmpty()
-            .WithMessage(_ => localizer["Synopsis_Required"]);
+            .WithMessage(_ => localizer[nameof(Validations.Movie_Synopsis_Required)]);
 
         RuleFor(x => x.Price)
             .GreaterThan(0)
-            .WithMessage(_ => localizer["Price_GreaterThan"]);
+            .WithMessage(_ => localizer[nameof(Validations.Movie_Price_GreaterThan)]);
 
         RuleFor(x => x.Rating)
             .IsInEnum()
-            .WithMessage(_ => localizer["Rating_Invalid"]);
+            .WithMessage(_ => localizer[nameof(Validations.Movie_Rating_Invalid)]);
 
 
         RuleFor(x => x.ReleaseYear)
             .Must(year => year <= DateTime.UtcNow.Year)
-            .WithMessage(_ => localizer["ReleaseYear_Future"]);
+            .WithMessage(_ => localizer[nameof(Validations.Movie_ReleaseYear_Future)]);
 
         RuleFor(x => x.Title)
             .MustAsync(BeAUniqueTitle)
-            .WithMessage(_ => localizer["Title_Unique"]);
+            .WithMessage(_ => localizer[nameof(Validations.Movie_Title_Unique)]);
 
         RuleFor(x => x.GenreId)
             .NotEmpty()
             .MustAsync(GenreMustExist)
-            .WithMessage(_ => localizer["Genre_Exists"]);
+            .WithMessage(_ => localizer[nameof(Validations.Movie_GenreId_Exists)]);
     }
 
     /// <summary>

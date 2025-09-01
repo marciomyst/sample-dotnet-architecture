@@ -34,6 +34,29 @@ public interface ICacheService
     /// <summary>
     /// Retrieves a value from the cache associated with the specified key.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This method is non-throwing for cache-miss scenarios: when no entry exists or it has expired,
+    /// it simply returns <c>null</c>. Implementations should avoid throwing for transient cache issues
+    /// and allow callers to fall back to the source of truth when appropriate.
+    /// </para>
+    /// <para>
+    /// Example:
+    /// <code>
+    /// var key = $"movie:by-id:{id}";
+    /// Movie? movie = await cache.GetAsync<Movie>(key);
+    /// if (movie is null)
+    /// {
+    ///     movie = await repository.GetByIdAsync(id);
+    ///     if (movie is not null)
+    ///     {
+    ///         await cache.SetAsync(key, movie, TimeSpan.FromMinutes(5));
+    ///     }
+    /// }
+    /// return movie;
+    /// </code>
+    /// </para>
+    /// </remarks>
     /// <typeparam name="T">The type of the cached value.</typeparam>
     /// <param name="key">The cache key to look up.</param>
     /// <returns>The cached value, or <c>null</c> if not found or expired.</returns>
@@ -42,6 +65,20 @@ public interface ICacheService
     /// <summary>
     /// Inserts or updates a value in the cache with an optional absolute expiration.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Uses absolute expiration relative to the current time when <paramref name="absoluteExpirationRelativeToNow"/> is provided.
+    /// If omitted, the implementation's default TTL (time-to-live) is applied. Prefer short TTLs for volatile data
+    /// and longer TTLs for read-heavy, infrequently changing data. Keys should be stable and namespaced.
+    /// </para>
+    /// <para>
+    /// Example:
+    /// <code>
+    /// var key = $"movie:by-id:{id}";
+    /// await cache.SetAsync(key, movie, TimeSpan.FromMinutes(5));
+    /// </code>
+    /// </para>
+    /// </remarks>
     /// <typeparam name="T">The type of the value.</typeparam>
     /// <param name="key">The cache key to set.</param>
     /// <param name="value">The value to cache.</param>
@@ -51,6 +88,20 @@ public interface ICacheService
     /// <summary>
     /// Removes the value associated with the specified key from the cache.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// This operation should be idempotent: removing a non-existent key must not throw and is considered a no-op.
+    /// Prefer targeted invalidation for single-entity updates and, when necessary, use namespaced keys to enable
+    /// coarse-grained invalidation (e.g., evict all keys with a given prefix using provider-specific capabilities).
+    /// </para>
+    /// <para>
+    /// Example:
+    /// <code>
+    /// var key = $"movie:by-id:{id}";
+    /// await cache.RemoveAsync(key);
+    /// </code>
+    /// </para>
+    /// </remarks>
     /// <param name="key">The cache key to remove.</param>
     Task RemoveAsync(string key);
 }

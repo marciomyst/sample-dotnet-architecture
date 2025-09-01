@@ -28,16 +28,31 @@ public class Result
     /// <summary>
     /// Indicates whether the operation was successful.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// When <c>true</c>, the result represents success and <see cref="Errors"/> is empty. For value-returning
+    /// operations, prefer <see cref="Result{T}"/> and check both <c>IsSuccess</c> and <see cref="Result{T}.Value"/>.
+    /// </para>
+    /// </remarks>
     public bool IsSuccess { get; }
 
     /// <summary>
     /// Indicates whether the operation failed.
     /// </summary>
+    /// <remarks>
+    /// Convenience inverse of <see cref="IsSuccess"/>.
+    /// </remarks>
     public bool IsFailure => !IsSuccess;
 
     /// <summary>
     /// The list of domain <see cref="Error"/> instances describing the failure; empty on success.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Error codes should be stable identifiers that can be mapped to HTTP status codes or localized messages at the
+    /// boundaries. Callers may surface these errors directly or translate them as needed.
+    /// </para>
+    /// </remarks>
     public IReadOnlyCollection<Error> Errors { get; }
 
     /// <summary>
@@ -99,6 +114,10 @@ public class Result<T> : Result
     /// <summary>
     /// The value returned on success; <c>null</c> when the result represents a failure.
     /// </summary>
+    /// <remarks>
+    /// Access this only when <see cref="Result.IsSuccess"/> is <c>true</c>. On failure the value is <c>null</c>
+    /// (or the default for value types when nullable annotations are not enforced).
+    /// </remarks>
     public T? Value { get; }
 
     private Result(T value) : base(true, Array.Empty<Error>())

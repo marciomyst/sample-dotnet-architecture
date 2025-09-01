@@ -1,6 +1,7 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
+using TheMovie.Application.Resources;
 
 namespace TheMovie.Application.Behaviours
 {
@@ -56,7 +57,7 @@ namespace TheMovie.Application.Behaviours
                 .Where(f => f != null)
                 .ToList();
 
-            if (failures.Any())
+            if (failures.Count != 0)
             {
                 _logger.LogWarning("Validation errors - {CommandName} - Errors: {@ValidationErrors}", requestName, failures);
 

@@ -29,7 +29,13 @@ namespace TheMovie.Domain.Events;
 public class MovieRegisteredDomainEvent(Movie movie) : INotification
 {
     /// <summary>
-    /// Gets the <see cref="Movie"/> associated with this event.
+    /// Gets the <see cref="Movie"/> aggregate associated with this event.
     /// </summary>
+    /// <remarks>
+    /// <para>
+    /// Represents the newly created aggregate at the time the event was raised. Handlers should treat the
+    /// instance as a snapshot for read-only purposes and avoid mutating it.
+    /// </para>
+    /// </remarks>
     public Movie Movie { get; } = movie;
 }

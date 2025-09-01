@@ -31,15 +31,18 @@ public class MoviePriceChangedDomainEvent(Guid movieId, decimal oldPrice, decima
     /// <summary>
     /// Gets the unique identifier of the movie whose price has changed.
     /// </summary>
+    /// <remarks>Use this to correlate the event back to the aggregate or projections.</remarks>
     public Guid MovieId { get; } = movieId;
 
     /// <summary>
     /// Gets the previous price of the movie.
     /// </summary>
+    /// <remarks>Represents the value before the change occurred; useful for differential updates.</remarks>
     public decimal OldPrice { get; } = oldPrice;
 
     /// <summary>
     /// Gets the new price of the movie.
     /// </summary>
+    /// <remarks>Represents the value after the change; consumers should not assume currency conversions.</remarks>
     public decimal NewPrice { get; } = newPrice;
 }

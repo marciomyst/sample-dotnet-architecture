@@ -25,14 +25,12 @@ public static partial class DomainErrors
     /// </remarks>
     public static class GenreErrors
     {
-        private const string NotFoundCode = "Genre.NotFound";
-
         /// <summary>
         /// Creates an <see cref="Error"/> for a genre that was not found.
         /// </summary>
         /// <param name="localizer">The localizer used to resolve the resource message.</param>
         public static Error NotFound(IStringLocalizer localizer) =>
-            new(NotFoundCode, localizer[NotFoundCode]);
+            new(nameof(Errors.Genre_NotFound), localizer[nameof(Errors.Genre_NotFound)]);
 
         /// <summary>
         /// Creates an <see cref="Error"/> for a genre that was not found, formatting with <paramref name="genreId"/> when supported by the resource.
@@ -40,6 +38,6 @@ public static partial class DomainErrors
         /// <param name="localizer">The localizer used to resolve the resource message.</param>
         /// <param name="genreId">An optional identifier to include in the message if the resource contains placeholders.</param>
         public static Error NotFound(IStringLocalizer localizer, Guid genreId) =>
-            new(NotFoundCode, localizer[NotFoundCode, genreId]);
+            new(nameof(Errors.Genre_NotFound), localizer[nameof(Errors.Genre_NotFound), genreId]);
     }
 }

@@ -31,15 +31,24 @@ public class MovieGenreChangedDomainEvent(Guid movieId, Guid oldGenreId, Guid ne
     /// <summary>
     /// Gets the unique identifier of the movie whose genre has changed.
     /// </summary>
+    /// <remarks>
+    /// Stable identifier used to correlate the event with the source aggregate and to fetch the latest state if needed.
+    /// </remarks>
     public Guid MovieId { get; } = movieId;
 
     /// <summary>
     /// Gets the unique identifier of the previous genre.
     /// </summary>
+    /// <remarks>
+    /// Useful for removing or updating entries from denormalized projections indexed by the old genre.
+    /// </remarks>
     public Guid OldGenreId { get; } = oldGenreId;
 
     /// <summary>
     /// Gets the unique identifier of the new genre.
     /// </summary>
+    /// <remarks>
+    /// Target genre identifier to which the movie was moved; use to add or upsert entries in projections.
+    /// </remarks>
     public Guid NewGenreId { get; } = newGenreId;
 }

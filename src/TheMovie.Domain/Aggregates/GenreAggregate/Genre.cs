@@ -28,10 +28,17 @@ namespace TheMovie.Domain.Aggregates.GenreAggregate;
 public sealed class Genre : Entity, IAggregateRoot
 {
     /// <summary>
-    /// Gets the name of the genre.
+    /// Name of the genre.
     /// </summary>
     /// <remarks>
-    /// The name is immutable after construction and is used for equality comparison.
+    /// <para>
+    /// Required and immutable after construction. This value participates in equality: two <see cref="Genre"/>
+    /// instances are considered equal when their <see cref="Name"/> values match (ordinal, case-sensitive comparison).
+    /// </para>
+    /// <para>
+    /// No normalization is applied on assignment; callers are responsible for any canonicalization (e.g., casing
+    /// or trimming) at the boundaries or via validators.
+    /// </para>
     /// </remarks>
     public string Name { get; private set; } = null!;
 
@@ -44,6 +51,14 @@ public sealed class Genre : Entity, IAggregateRoot
     /// Initializes a new instance of <see cref="Genre"/> with the specified name.
     /// </summary>
     /// <param name="name">The genre name. Must not be null, empty, or whitespace.</param>
+    /// <returns>A new, valid <see cref="Genre"/> aggregate root.</returns>
+    /// <remarks>
+    /// <para>
+    /// Enforces the invariant that <paramref name="name"/> is non-empty and immediately raises a
+    /// <see cref="GenreRegisteredDomainEvent"/> signalling the registration of a new genre. No normalization
+    /// (trimming/casing) is applied; pass canonicalized values if required by business rules.
+    /// </para>
+    /// </remarks>
     /// <exception cref="ArgumentNullException">Thrown when <paramref name="name"/> is null or whitespace.</exception>
     public Genre(string name)
     {
@@ -59,8 +74,12 @@ public sealed class Genre : Entity, IAggregateRoot
     /// <summary>
     /// Determines whether this instance and another <see cref="Genre"/> have the same name.
     /// </summary>
-    /// <param name="other">The other genre to compare.</param>
-    /// <returns>True if both genres share the same name; otherwise, false.</returns>
+    /// <param name="other">The other genre to compare. Must not be <c>null</c>.</param>
+    /// <returns><c>true</c> when both genres share the same <see cref="Name"/>; otherwise, <c>false</c>.</returns>
+    /// <remarks>
+    /// Uses an ordinal, case-sensitive comparison on <see cref="Name"/>. This method does not guard against
+    /// <paramref name="other"/> being <c>null</c>; pass a non-null instance.
+    /// </remarks>
     public bool Equals(Genre other)
     {
         return Name == other.Name;
@@ -70,9 +89,10 @@ public sealed class Genre : Entity, IAggregateRoot
     /// Determines whether the specified object is equal to the current genre.
     /// </summary>
     /// <param name="obj">The object to compare with the current genre.</param>
-    /// <returns>
-    /// True if the object is a <see cref="Genre"/> and has the same name; otherwise, false.
-    /// </returns>
+    /// <returns><c>true</c> if <paramref name="obj"/> is a <see cref="Genre"/> with the same <see cref="Name"/>; otherwise, <c>false</c>.</returns>
+    /// <remarks>
+    /// Handles <c>null</c> and reference-equality checks first, then defers to <see cref="Equals(Genre)"/>.
+    /// </remarks>
     public override bool Equals(object? obj)
     {
         if (obj is null)
@@ -89,9 +109,12 @@ public sealed class Genre : Entity, IAggregateRoot
     }
 
     /// <summary>
-    /// Returns the hash code for this genre, based on its name.
+    /// Returns a hash code for this genre derived from <see cref="Name"/>.
     /// </summary>
-    /// <returns>A hash code derived from the genre name.</returns>
+    /// <returns>An integer hash code consistent with <see cref="Equals(object)"/>.</returns>
+    /// <remarks>
+    /// Must remain consistent with the equality semantics: two equal genres (same <see cref="Name"/>) produce the same hash code.
+    /// </remarks>
     public override int GetHashCode()
     {
         return Name.GetHashCode();

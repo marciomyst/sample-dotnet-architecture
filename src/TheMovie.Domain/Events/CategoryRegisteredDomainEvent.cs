@@ -28,7 +28,11 @@ namespace TheMovie.Domain.Events;
 public class GenreRegisteredDomainEvent(Genre genre) : INotification
 {
     /// <summary>
-    /// Gets the <see cref="Genre"/> associated with this event.
+    /// Gets the <see cref="Genre"/> aggregate associated with this event.
     /// </summary>
+    /// <remarks>
+    /// Represents the newly created genre at the time the event was raised. Handlers should treat this instance
+    /// as a read-only snapshot and avoid mutating aggregate state within the event handler.
+    /// </remarks>
     public Genre Genre { get; } = genre;
 }

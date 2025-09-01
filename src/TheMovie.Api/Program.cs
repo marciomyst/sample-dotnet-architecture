@@ -7,8 +7,6 @@ using Swashbuckle.AspNetCore.Filters;
 using System.Data;
 using System.Reflection;
 using TheMovie.Api.Features.Movies;
-using TheMovie.Api.Features.Movies.CreateMovie;
-using TheMovie.Api.Features.Movies.DeleteMovie;
 using TheMovie.Application.Behaviours;
 using TheMovie.Application.Interfaces;
 using TheMovie.Domain.Interfaces;

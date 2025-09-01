@@ -41,11 +41,29 @@ public class CreateMovieCommandHandler(IMovieRepository movieRepository, IUnitOf
     /// </summary>
     /// <param name="request">The create movie command.</param>
     /// <param name="cancellationToken">The cancellation token.</param>
-    /// <returns>A <see cref="Result{T}"/> containing the new movie identifier on success; otherwise, a failure result.</returns>
+    /// <returns>
+    /// A <see cref="Result{T}"/> containing the newly created movie identifier when successful; otherwise, a failure result.
+    /// </returns>
     /// <remarks>
     /// <para>
-    /// This method constructs the domain aggregate and stages it for persistence. The actual database write and
-    /// domain event publication occur when the unit of work commits.
+    /// Processing steps:
+    /// <list type="number">
+    /// <item>Constructs the <see cref="Movie"/> aggregate from the command data.</item>
+    /// <item>Enlists it for persistence via <see cref="IMovieRepository.Add(TheMovie.Domain.Aggregates.MovieAggregate.Movie)"/>.</item>
+    /// <item>Commits the Unit of Work (<see cref="IUnitOfWork.SaveEntitiesAsync(System.Threading.CancellationToken)"/>) to persist and dispatch domain events.</item>
+    /// </list>
+    /// Validation is executed earlier in the MediatR pipeline (FluentValidation). Assuming it passes, this handler
+    /// typically returns <c>Result.Ok(movie.Id)</c>.
+    /// </para>
+    /// <para>
+    /// Example:
+    /// <code><![CDATA[
+    /// Result<Guid> result = await handler.Handle(command, cancellationToken);
+    /// if (result.IsSuccess)
+    /// {
+    ///     Guid id = result.Value!;
+    /// }
+    /// ]]></code>
     /// </para>
     /// </remarks>
     public async Task<Result<Guid>> Handle(CreateMovieCommand request, CancellationToken cancellationToken)

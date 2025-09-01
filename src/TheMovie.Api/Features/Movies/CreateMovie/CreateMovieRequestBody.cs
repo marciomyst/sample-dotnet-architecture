@@ -1,4 +1,4 @@
-﻿using TheMovie.Domain.Aggregates.MovieAggregate;
+using TheMovie.Domain.Aggregates.MovieAggregate;
 
 namespace TheMovie.Api.Features.Movies.CreateMovie;
 

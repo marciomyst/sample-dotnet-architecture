@@ -25,17 +25,12 @@ public static partial class DomainErrors
     /// </remarks>
     public static class MovieErrors
     {
-        private const string NotFoundCode = "Movie.NotFound";
-        private const string DuplicateTitleCode = "Movie.DuplicateTitle";
-        private const string InvalidReleaseYearCode = "Movie.InvalidReleaseYear";
-        private const string InvalidPriceCode = "Movie.InvalidPrice";
-
         /// <summary>
         /// Creates an <see cref="Error"/> for a movie that was not found.
         /// </summary>
         /// <param name="localizer">The localizer used to resolve the resource message.</param>
         public static Error NotFound(IStringLocalizer localizer) =>
-            new(NotFoundCode, localizer[NotFoundCode]);
+            new(nameof(Errors.Movie_NotFound), localizer[nameof(Errors.Movie_NotFound)]);
 
         /// <summary>
         /// Creates an <see cref="Error"/> for a movie that was not found, formatting with <paramref name="movieId"/> when supported by the resource.
@@ -43,27 +38,27 @@ public static partial class DomainErrors
         /// <param name="localizer">The localizer used to resolve the resource message.</param>
         /// <param name="movieId">An optional identifier to include in the message if the resource contains placeholders.</param>
         public static Error NotFound(IStringLocalizer localizer, Guid movieId) =>
-            new(NotFoundCode, localizer[NotFoundCode, movieId]);
+            new(nameof(Errors.Movie_NotFound), localizer[nameof(Errors.Movie_NotFound), movieId]);
 
         /// <summary>
         /// Creates an <see cref="Error"/> indicating a duplicate movie title.
         /// </summary>
         /// <param name="localizer">The localizer used to resolve the resource message.</param>
         public static Error DuplicateTitle(IStringLocalizer localizer) =>
-            new(DuplicateTitleCode, localizer[DuplicateTitleCode]);
+            new(nameof(Errors.Movie_DuplicateTitle), localizer[nameof(Errors.Movie_DuplicateTitle)]);
 
         /// <summary>
         /// Creates an <see cref="Error"/> indicating the release year is invalid (for example, in the future or outside acceptable range).
         /// </summary>
         /// <param name="localizer">The localizer used to resolve the resource message.</param>
         public static Error InvalidReleaseYear(IStringLocalizer localizer) =>
-            new(InvalidReleaseYearCode, localizer[InvalidReleaseYearCode]);
+            new(nameof(Errors.Movie_InvalidReleaseYear), localizer[nameof(Errors.Movie_InvalidReleaseYear)]);
 
         /// <summary>
         /// Creates an <see cref="Error"/> indicating the price value is invalid (for example, negative or zero when positive is required).
         /// </summary>
-        /// <param name="localizer">The localizer used to resolve the resource message.</param>
+        /// <param name="localizer">The localizer used to resolve the resource message.</param>s
         public static Error InvalidPrice(IStringLocalizer localizer) =>
-            new(InvalidPriceCode, localizer[InvalidPriceCode]);
+            new(nameof(Errors.Movie_InvalidPrice), localizer[nameof(Errors.Movie_InvalidPrice)]);
     }
 }
