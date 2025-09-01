@@ -202,7 +202,7 @@ public class Movie : Entity, IAggregateRoot
         ChangeGenre(genreId);
     }
 
-    
+
     /// <summary>
     /// Updates the price to a new value, enforcing domain rules and raising a domain event.
     /// </summary>

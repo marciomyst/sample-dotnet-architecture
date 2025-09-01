@@ -52,7 +52,7 @@ public static class UpdateMovieEndpoints
             {
                 return result.ToProblemDetails();
             }
-            
+
             return Results.NoContent();
         })
         .WithName("UpdateMovie")

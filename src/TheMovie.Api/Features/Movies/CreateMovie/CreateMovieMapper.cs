@@ -31,7 +31,7 @@ internal static class CreateMovieMapper
     /// <returns>A CreateMovieCommand populated with values from the payload.</returns>
     public static CreateMovieCommand ToCommand(this CreateMovieRequest request)
     {
-        return new (
+        return new(
             request.Body.Title,
             request.Body.Synopsis,
             request.Body.ReleaseYear,
@@ -60,6 +60,6 @@ internal static class CreateMovieMapper
     /// </remarks>
     public static CreateMovieResponse ToResponse(this Guid id)
     {
-        return new (id);
+        return new(id);
     }
 }

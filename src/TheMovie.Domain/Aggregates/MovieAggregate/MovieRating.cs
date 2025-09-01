@@ -1,4 +1,4 @@
-﻿namespace TheMovie.Domain.Aggregates.MovieAggregate;
+namespace TheMovie.Domain.Aggregates.MovieAggregate;
 
 /// <summary>
 /// Enumerates the official content ratings for movies, indicating suitable audience ages

@@ -1,4 +1,4 @@
-﻿namespace TheMovie.Application;
+namespace TheMovie.Application;
 
 /// <summary>
 /// Marker type used to reference the <c>TheMovie.Application</c> assembly at runtime.

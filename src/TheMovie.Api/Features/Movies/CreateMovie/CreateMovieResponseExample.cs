@@ -45,7 +45,7 @@ public class CreateMovieResponseExample : IExamplesProvider<CreateMovieResponse>
     /// <returns>A populated <see cref="CreateMovieResponse"/> object.</returns>
     public CreateMovieResponse GetExamples()
     {
-        return new (
+        return new(
             Id: Guid.Parse("815acc2d-2224-4253-b119-3c82e7286c07")
         );
     }

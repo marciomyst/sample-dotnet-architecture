@@ -1,7 +1,6 @@
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.Logging;
-using TheMovie.Application.Resources;
 
 namespace TheMovie.Application.Behaviours
 {

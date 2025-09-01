@@ -26,5 +26,5 @@ namespace TheMovie.Api.Features.Movies.CreateMovie;
 /// </remarks>
 /// <param name="Body">The request payload containing all movie fields.</param>
 public record CreateMovieRequest(
-    [FromBody] CreateMovieRequestBody Body    
+    [FromBody] CreateMovieRequestBody Body
 );

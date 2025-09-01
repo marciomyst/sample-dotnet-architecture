@@ -35,7 +35,7 @@ public class UpdateMovieCommandValidator : AbstractValidator<UpdateMovieCommand>
 
         RuleFor(c => c.Title)
             .NotEmpty()
-            .WithMessage(_ => localizer["Movie_Title_Required"]) 
+            .WithMessage(_ => localizer["Movie_Title_Required"])
             .MaximumLength(200)
             .WithMessage(_ => localizer["Movie_Title_MaxLength", 200]);
 
@@ -60,7 +60,7 @@ public class UpdateMovieCommandValidator : AbstractValidator<UpdateMovieCommand>
             .WithMessage(_ => localizer["Movie_Title_Unique"]);
 
         RuleFor(c => c.GenreId)
-            .NotEmpty().WithMessage(_ => localizer["Movie_GenreId_Required"]) 
+            .NotEmpty().WithMessage(_ => localizer["Movie_GenreId_Required"])
             .MustAsync(GenreMustExist)
             .WithMessage(_ => localizer["Movie_GenreId_Exists"]);
     }
